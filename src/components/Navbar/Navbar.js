@@ -1,24 +1,17 @@
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import styles from './Navbar.module.scss'
-import { Link } from 'react-router-dom'
-import Button from '../Button/Button'
 
-const Navbar = ({ isAuthed, routes, setModal }) => {
+const Navbar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         TST - Shopping List
       </div>
+      <div className={styles.subTitle}>
+        By : Xavier Prasetyo - 18218040
+      </div>
     </div>
   )
-}
-
-Navbar.propTypes = {
-  isAuthed: PropTypes.string,
-  routes: PropTypes.array,
-  setModal: PropTypes.func
 }
 
 export default Navbar

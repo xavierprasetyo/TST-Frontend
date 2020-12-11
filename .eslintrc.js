@@ -18,6 +18,8 @@ module.exports = {
     'react'
   ],
   rules: {
-  },
-  ignorePatterns: ['*.spec.js']
+    'react/prop-types': [
+      0
+    ]
+  }
 }

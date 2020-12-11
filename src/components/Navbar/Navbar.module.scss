@@ -11,39 +11,9 @@
       font-weight: 700;
    }
 
-   .linkContainer {
-      width: 60%;
-      display: flex;
-      justify-content: space-evenly;
-      margin-top: 30px;
-      margin-bottom: 20px;
-      
-      .link {
-         font-size: 1.2rem;
-         font-weight: 500;
-         color: white;
-         text-decoration: none;
-         background-color: rgb(17, 180, 255);
-         transition: all .2s;
-         border-radius: 20px;
-         padding: 10px 20px;
-         box-shadow: 0px 10px 30px 5px rgba(0,0,0,0.25);
-         &:hover{
-            transform: scale(1.1);
-            background-color: rgb(255, 199, 94);
-            cursor: pointer;
-         }
-      }
-
-      .logout {
-         &:hover{
-            background-color: rgb(194, 0, 0) !important;
-         }
-      }
-      .login {
-         &:hover{
-            background-color: rgb(23, 110, 1) !important;
-         }
-      }
+   .subTitle {
+      margin-top: 10px;
+      font-size: 1.3rem;
+      font-weight: 500;
    }
 }

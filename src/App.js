@@ -1,8 +1,12 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom'
 import { Navbar } from './components'
-import GoogleLogin from 'react-google-login'
-// import { Admin, CekStatus } from './pages'
+import { LoginPage, ListPage } from './pages'
 
 const App = () => {
   const [accessToken, setAccessToken] = useState(null)
@@ -14,24 +18,24 @@ const App = () => {
     }
   }, [])
 
-  const responseGoogle = (res) => {
-    console.log(res)
-  }
-
   return (
-    <div>
-      <Navbar isAuthed={accessToken} />
-      {
-        accessToken ? (<LoginPage />) : (<ListPage/>)
-      }
-      <GoogleLogin
-        clientId="447061751909-n543mqv6laleumc8mmjshtmj0sp2mddc.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      />,
-    </div>
+    <Router>
+    <Navbar />
+    <Switch>
+      <Route exact path="/">
+        {accessToken
+          ? (<Redirect to="/shopping" />)
+          : (<LoginPage setToken={setAccessToken} />)
+        }
+      </Route>
+      <Route path="/shopping">
+        {accessToken
+          ? (<ListPage/>)
+          : (<Redirect to="/" />)
+        }
+      </Route>
+    </Switch>
+  </Router>
   )
 }
 
