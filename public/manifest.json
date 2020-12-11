@@ -1,0 +1,8 @@
+{
+  "short_name": "Smartlon.com",
+  "name": "Smart Laundry for RPL",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
