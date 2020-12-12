@@ -6,10 +6,10 @@ import {
   Redirect
 } from 'react-router-dom'
 import { Navbar } from './components'
-import { LoginPage, ListPage } from './pages'
+import { LoginPage, ListPage, LogPage } from './pages'
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState(null)
+  const [accessToken, setAccessToken] = useState('ada')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -30,7 +30,13 @@ const App = () => {
       </Route>
       <Route path="/shopping">
         {accessToken
-          ? (<ListPage/>)
+          ? (<ListPage token={accessToken}/>)
+          : (<Redirect to="/" />)
+        }
+      </Route>
+      <Route path="/log">
+        {accessToken
+          ? (<LogPage token={accessToken}/>)
           : (<Redirect to="/" />)
         }
       </Route>

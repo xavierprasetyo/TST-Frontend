@@ -1,61 +1,103 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './ListPage.module.scss'
 import { Shoppinglist, ItemModal } from '../../components'
+import axios from 'axios'
 
-const dummyItem = [
-  {
-    id: 1,
-    name: 'adada',
-    checked: false,
-    crossed: false
-  },
-  {
-    id: 2,
-    name: 'adada',
-    checked: false,
-    crossed: true
+const ListPage = ({ token }) => {
+  const axiosConfig = {
+    headers: {
+      Authorization: token
+    }
   }
-]
 
-const ListPage = () => {
-  const [items, setItems] = useState(dummyItem)
+  const [items, setItems] = useState([])
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_BACKEND_URL + '/items', axiosConfig)
+      .then(res => setItems(res.data))
+      .catch(e => alert(e))
+  }, [])
 
   const addItem = (name) => {
-    // post api here
-    const newItem = {
-      id: items[items.length - 1].id + 1,
-      name,
-      checked: false,
-      crossed: false
-    }
-    const tempItems = items
-    // post api here
-    tempItems.push(newItem)
-    setItems([...tempItems])
+    axios
+      .post(process.env.REACT_APP_BACKEND_URL + '/items/add', {
+        name
+      }, axiosConfig)
+      .then(res => {
+        const newItem = {
+          id: res.data.id,
+          name,
+          checked: false,
+          crossed: false
+        }
+        const tempItems = items
+        tempItems.push(newItem)
+        setItems([...tempItems])
+        setName('')
+      })
+      .catch(e => alert(e))
   }
   const checkItem = (id, checked) => {
-    const tempItems = items
-    // post api here
-    tempItems[id].checked = checked
-    setItems([...tempItems])
+    axios
+      .put(process.env.REACT_APP_BACKEND_URL + '/items/check', {
+        id: items[id].id,
+        checked
+      }, axiosConfig)
+      .then(res => {
+        if (res.data.success) {
+          const tempItems = items
+          tempItems[id].checked = res.data.checked
+          setItems([...tempItems])
+        } else {
+          console.error('res contains no success')
+          alert('res contains no success')
+        }
+      })
+      .catch(e => alert(e))
   }
 
   const crossItem = (id, crossed) => {
-    const tempItems = items
-    // post api here
-    tempItems[id].crossed = crossed
-    setItems([...tempItems])
+    axios
+      .put(process.env.REACT_APP_BACKEND_URL + '/items/cross', {
+        id: items[id].id,
+        crossed
+      }, axiosConfig)
+      .then(res => {
+        if (res.data.success) {
+          const tempItems = items
+          tempItems[id].crossed = res.data.crossed
+          setItems([...tempItems])
+        } else {
+          console.error('res contains no success')
+          alert('res contains no success')
+        }
+      })
+      .catch(e => alert(e))
   }
 
   const deleteItem = (id) => {
-    // post api here
-    const tempItems = items.filter(item => item.id !== id)
-    setItems([...tempItems])
+    axios
+      .delete(process.env.REACT_APP_BACKEND_URL + '/items/delete/' + id, axiosConfig)
+      .then(res => {
+        if (res.data.success) {
+          const tempItems = items.filter(item => item.id !== id)
+          setItems([...tempItems])
+        } else {
+          console.error('res contains no success')
+          alert('res contains no success')
+        }
+      })
+      .catch(e => alert(e))
   }
+
   return (
     <div className={styles.container} >
       <ItemModal
         addItem={addItem}
+        name={name}
+        setName={setName}
       />
       <Shoppinglist
         items={items}

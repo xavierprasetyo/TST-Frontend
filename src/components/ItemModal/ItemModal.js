@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './ItemModal.module.scss'
 
-const ItemModal = ({ addItem }) => {
-  const [name, setName] = useState('')
+const ItemModal = ({ addItem, name, setName }) => {
   const handleAdd = () => {
     if (name) {
       addItem(name)
+    }
+  }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleAdd()
     }
   }
   return (
@@ -15,6 +19,7 @@ const ItemModal = ({ addItem }) => {
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <div
         className={styles.addBtn}

@@ -13,10 +13,7 @@ const ShoppingListItem = ({ item, index, crossItem, checkItem, deleteItem }) => 
           }}
           type="checkbox"
           checked={item.checked}
-          onChange={() => {
-            console.log(index)
-            checkItem(index, !item.checked)
-          }}
+          onChange={() => checkItem(index, !item.checked)}
         />
         <div
           className={cx(styles.title, item.crossed ? styles.crossed : null)}
