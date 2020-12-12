@@ -4,6 +4,7 @@ import GoogleLogin from 'react-google-login'
 
 const LoginPage = ({ setToken }) => {
   const responseGoogle = (res) => {
+    console.log(res)
     const token = res.tokenId
     localStorage.setItem('token', token)
     setToken(token)
