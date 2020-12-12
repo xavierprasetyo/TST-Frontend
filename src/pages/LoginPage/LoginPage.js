@@ -32,7 +32,6 @@ const LoginPage = ({ setToken }) => {
             </button>
           )}
           clientId={process.env.REACT_APP_GOOGLE_OAUTH_ID}
-          buttonText="Login"
           onSuccess={responseGoogle}
           onFailure={failResponse}
           cookiePolicy={'single_host_origin'}

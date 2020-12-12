@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom'
 import { Navbar } from './components'
 import { LoginPage, ListPage, LogPage } from './pages'
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState('ada')
+  const [accessToken, setAccessToken] = useState('')
+  const [isShop, setIsShop] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -19,29 +14,15 @@ const App = () => {
   }, [])
 
   return (
-    <Router>
-    <Navbar />
-    <Switch>
-      <Route exact path="/">
-        {accessToken
-          ? (<Redirect to="/shopping" />)
-          : (<LoginPage setToken={setAccessToken} />)
-        }
-      </Route>
-      <Route path="/shopping">
-        {accessToken
+    <div>
+      <Navbar isAuthed={accessToken} setAuthed={setAccessToken} setShop={setIsShop}/>
+      {!accessToken
+        ? (<LoginPage setToken={setAccessToken} />)
+        : isShop
           ? (<ListPage token={accessToken}/>)
-          : (<Redirect to="/" />)
-        }
-      </Route>
-      <Route path="/log">
-        {accessToken
-          ? (<LogPage token={accessToken}/>)
-          : (<Redirect to="/" />)
-        }
-      </Route>
-    </Switch>
-  </Router>
+          : (<LogPage token={accessToken}/>)
+      }
+    </div>
   )
 }
 

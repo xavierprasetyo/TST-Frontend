@@ -1,8 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styles from './Navbar.module.scss'
+import { GoogleLogout } from 'react-google-login'
 
-const Navbar = () => {
+const Navbar = ({ isAuthed, setAuthed, setShop }) => {
+  const logout = () => {
+    localStorage.removeItem('token')
+    setAuthed(null)
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -11,14 +16,32 @@ const Navbar = () => {
       <div className={styles.subTitle}>
         By : Xavier Prasetyo - 18218040
       </div>
-      <div className={styles.linkContainer}>
-        <Link to={'/shopping'} className={styles.link}>
-          Shopping List
-        </Link>
-        <Link to={'/log'} className={styles.link}>
-          API Log
-        </Link>
-      </div>
+      {
+        isAuthed
+          ? (<div className={styles.linkContainer}>
+              <div className={styles.link} onClick={() => setShop(true)}>
+                Shopping List
+              </div>
+              <div className={styles.link} onClick={() => setShop(false)}>
+                API Log
+              </div>
+              <GoogleLogout
+                clientId={process.env.REACT_APP_GOOGLE_OAUTH_ID}
+                onLogoutSuccess={logout}
+                render={renderProps => (
+                  <div
+                    onClick={renderProps.onClick}
+                    className={styles.link}
+                    type="button"
+                  >
+                    Log Out
+                  </div>
+                )}
+              />
+            </div>)
+          : null
+      }
+
     </div>
   )
 }
